@@ -35,8 +35,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var storyTextView: UILabel!
     
     // TODO Step 5: Initialise instance variables here
-    
-    
+    var storyProgress: Int = 1;
+    var storyTextArray = [String]()
+    var storyAnswerA = [String]()
+    var storyAnswerB = [String]()
     
     
     override func viewDidLoad() {
@@ -44,7 +46,10 @@ class ViewController: UIViewController {
         
         
         // TODO Step 3: Set the text for the storyTextView, topButton, bottomButton, and to T1_Story, T1_Ans1, and T1_Ans2
-        
+        storyTextArray = [story1, story2, story3, story4, story5, story6]
+        storyAnswerA = [answer1a, answer2a, answer3a, "", "", ""]
+        storyAnswerB = [answer1b, answer2b, answer3b, "", "", ""]
+        updateStoryView(0)
     }
 
     
@@ -52,14 +57,42 @@ class ViewController: UIViewController {
     @IBAction func buttonPressed(_ sender: UIButton) {
     
         // TODO Step 4: Write an IF-Statement to update the views
-                
+        if sender.tag == 1 {
+            // Button 1a is pressed
+            if storyProgress == 1 {
+                storyProgress = 3
+            } else if storyProgress == 2 {
+                storyProgress = 3
+            } else if storyProgress == 3 {
+                storyProgress = 6
+            }
+            updateStoryView(storyProgress)
+        } else if sender.tag == 2 {
+            // Button 1b is pressed
+            if storyProgress == 1 {
+                storyProgress = 2
+            } else if storyProgress == 2 {
+                storyProgress = 4
+            } else if storyProgress == 3 {
+                storyProgress = 5
+            }
+        }
         // TODO Step 6: Modify the IF-Statement to complete the story
-        
-    
+        updateStoryView(storyProgress)
     }
+
     
-
-
+    func updateStoryView(_ storyNumber: Int) {
+        storyTextView.text = storyTextArray[storyProgress - 1]
+        if storyAnswerA[storyProgress - 1] == "" {
+            // You have reached End
+            topButton.isHidden = true
+            bottomButton.isHidden = true
+        } else  {
+            topButton.setTitle(storyAnswerA[storyProgress - 1], for: .normal)
+            bottomButton.setTitle(storyAnswerB[storyProgress - 1], for: .normal)
+        }
+    }
 
 }
 
